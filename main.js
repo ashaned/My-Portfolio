@@ -124,3 +124,30 @@ if (typeof Typed !== 'undefined') {
         loop: true
     });
 }
+
+/**==================== Scroll Progress Bar ====================*/
+const progressBar = document.querySelector('#progress-bar');
+window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+});
+
+/**==================== Cursor Spotlight ====================*/
+const cursorGlow = document.querySelector('#cursor-glow');
+window.addEventListener('mousemove', e => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+});
+
+/**==================== 3D Card Tilt ====================*/
+if (window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.skill-card, .project-card, .contact-card, .timeline-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+}
